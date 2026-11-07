@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nverse Studio官方文档</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-kotlin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        /* 全局排版规范 */
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: #ffffff;
+            color: #1f2937;
+            -webkit-font-smoothing: antialiased;
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* 滚动条美化 */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+        /* 严格的文档 Markdown 样式 */
+        .markdown-body h1 { font-size: 2.25rem; font-weight: 800; margin-bottom: 1.5rem; letter-spacing: -0.025em; color: #111; }
+        .markdown-body h2 { font-size: 1.5rem; font-weight: 700; margin-top: 3.5rem; margin-bottom: 1.25rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e5e7eb; color: #111; }
+        .markdown-body h3 { font-size: 1.25rem; font-weight: 600; margin-top: 2rem; margin-bottom: 1rem; color: #222; }
+        .markdown-body p { margin-bottom: 1.25rem; color: #4b5563; line-height: 1.75; }
+        .markdown-body ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; color: #4b5563; }
+        .markdown-body li { margin-bottom: 0.5rem; }
+        .markdown-body a { color: #2563eb; text-decoration: none; }
+        .markdown-body a:hover { text-decoration: underline; }
+        
+        /* 代码块 */
+        pre[class*="language-"] {
+            border-radius: 0.75rem;
+            background: #0d1117 !important;
+            border: 1px solid #30363d;
+            padding: 1.25rem !important;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+        }
+
+        /* 提示框 */
+        .callout { padding: 1.25rem; border-radius: 0.5rem; margin-bottom: 1.5rem; border-left: 4px solid; }
+        .callout-info { background-color: #eff6ff; border-color: #3b82f6; color: #1e3a8a; }
+        .callout-warn { background-color: #fffbeb; border-color: #f59e0b; color: #78350f; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- 顶部导航 -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-black text-white rounded-lg flex items-center justify-center font-bold text-lg shadow-sm">N</div>
+                <span class="font-bold text-lg tracking-tight">Nverse Studio</span>
+                <span class="ml-2 px-2 py-0.5 rounded-md bg-gray-100 text-[11px] font-semibold text-gray-600 border border-gray-200 font-mono">v1.0.0-beta</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <!-- 顶部也保留一个 GitHub 快捷入口 -->
+                <a href="https://github.com/nverse-studio/Nverse-Pro" target="_blank" class="text-sm font-medium text-gray-500 hover:text-black transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
+                    <span class="hidden sm:block">Star on GitHub</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主体布局 -->
+    <div class="flex-grow max-w-7xl mx-auto w-full flex flex-col md:flex-row">
+        
+        <!-- 左侧导航 (PC端显示) -->
+        <aside class="w-64 flex-shrink-0 hidden md:block border-r border-gray-200 bg-white sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
+            <nav class="p-6 space-y-8">
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">概览</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#intro" class="text-gray-600 hover:text-black font-medium block">项目简介</a></li>
+                        <li><a href="#download" class="text-gray-600 hover:text-black font-medium block">下载与安装</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">核心机制</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#shizuku" class="text-gray-600 hover:text-black font-medium block">Shizuku 授权</a></li>
+                        <li><a href="#shell" class="text-gray-600 hover:text-black font-medium block">底层 Shell 引擎</a></li>
+                        <li><a href="#webview" class="text-gray-600 hover:text-black font-medium block">Web 混合沙盒</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">开发者指南</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#api" class="text-gray-600 hover:text-black font-medium block">Java/Kotlin API</a></li>
+                        <li><a href="#commands" class="text-gray-600 hover:text-black font-medium block">高频命令字典</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">帮助与支持</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#faq" class="text-gray-600 hover:text-black font-medium block">常见问题</a></li>
+                        <li><a href="#changelog" class="text-gray-600 hover:text-black font-medium block">更新日志</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- 右侧主要文档区 -->
+        <main class="flex-1 p-6 md:p-12 max-w-4xl markdown-body scroll-smooth">
+            
+            <!-- ================= 首屏 Hero + 巨型下载卡片 ================= -->
+            <section id="intro" class="scroll-mt-24 pt-8 pb-12">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-6 border border-blue-100">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                    </span>
+                    Nverse studio v1.0.0 正式发布
+                </div>
+                
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
+                    掌控你的 Android 系统.
+                </h1>
+                <p class="text-lg text-gray-500 mb-10 max-w-2xl">
+                    Nverse Studio 是一款面向 Android 开发者的底层系统调度工具。基于 Shizuku 授权，无需 Root 即可实现深度的系统级操作。
+                </p>
+                
+                <!-- 核心高光：用户进来第一眼看到的巨型按钮 -->
+                <div class="my-10 p-8 bg-gray-50 rounded-3xl border border-gray-200 flex flex-col md:flex-row items-center justify-between shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-6 mb-6 md:mb-0">
+                        <div class="w-16 h-16 bg-black rounded-2xl flex items-center justify-center text-white text-2xl font-extrabold shadow-lg shrink-0">N</div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-1">Nverse Studio APK</h3>
+                            <p class="text-gray-500 font-mono text-sm">Version 1.0.0 (Beta) | Size: ~1.09 MB | Requires Android 8.0+</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                        <!-- 跳转到 GitHub Releases 下载页 -->
+                        <a href="https://github.com/nverse-studio/Nverse-Pro/releases" target="_blank" class="flex items-center justify-center gap-2 px-8 py-4 bg-black text-white text-base font-bold rounded-xl hover:bg-gray-800 transition-transform hover:-translate-y-0.5 shadow-lg w-full md:w-auto">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            前往 GitHub 下载
+                        </a>
+                    </div>
+                </div>
+
+                <div class="callout callout-info">
+                    <strong>安全与合规声明：</strong> 本项目严格遵守开源协议，不收集任何用户隐私数据。由于涉及底层高级权限，请务必在明确了解风险后使用。
+                </div>
+            </section>
+
+            <hr class="my-12 border-gray-200">
+
+            <!-- Shizuku 授权 -->
+            <section id="shizuku" class="scroll-mt-24">
+                <h2>Shizuku 授权与配置</h2>
+                <p>为了保证在无 Root 环境下的系统调用能力，Nverse Studio 强依赖 Shizuku 服务。</p>
+
+                <div class="callout callout-warn">
+                    <strong>注意：</strong> 如果 Shizuku 掉线，Nverse 的所有底层功能（包括修改 DPI、冻结应用等）都将失效。
+                </div>
+
+                <h3>无线调试激活步骤</h3>
+                <ul>
+                    <li>进入手机系统的“开发者选项”，开启“无线调试”。</li>
+                    <li>进入无线调试页面，点击“使用配对码配对设备”。</li>
+                    <li>在 Shizuku 客户端输入 6 位配对码完成绑定。</li>
+                    <li>返回 Nverse Studio，应用会弹出权限请求，点击“允许”即可。</li>
+                </ul>
+
+                <h3>权限检测代码实现 (Kotlin)</h3>
+                <pre><code class="language-kotlin">// 检查 Shizuku 绑定状态与授权
+fun checkShizukuState(): Boolean {
+    return try {
+        if (!Shizuku.pingBinder()) {
+            Log.w("Nverse", "Shizuku service is offline.")
+            return false
+        }
+        if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
+            Log.i("Nverse", "Permission granted. UID: ${Shizuku.getUid()}")
+            true
+        } else {
+            // 如果未授权，向用户发起请求
+            Shizuku.requestPermission(0)
+            false
+        }
+    } catch (e: Exception) {
+        Log.e("Nverse", "Shizuku check error: ${e.message}")
+        false
+    }
+}</code></pre>
+            </section>
+
+            <hr class="my-12 border-gray-200">
+
+            <!-- 底层 Shell 引擎 -->
+            <section id="shell" class="scroll-mt-24">
+                <h2>底层 Shell 执行引擎</h2>
+                <p>借助 Kotlin 协程 (Coroutines) 与 Dispatchers.IO，我们实现了极其稳定的异步命令执行流，并支持实时捕获标准输出 (stdout) 与错误输出 (stderr)。</p>
+
+                <h3>命令执行器封装</h3>
+                <pre><code class="language-kotlin">suspend fun execShellCmd(cmd: String): String = withContext(Dispatchers.IO) {
+    try {
+        // 使用 sh -c 执行命令，以支持管道和多条命令拼接
+        val process = Runtime.getRuntime().exec(arrayOf("sh", "-c", cmd))
+        val reader = BufferedReader(InputStreamReader(process.inputStream))
+        val errorReader = BufferedReader(InputStreamReader(process.errorStream))
+        val output = StringBuilder()
+        var line: String?
+        
+        // 读取标准输出流
+        while (reader.readLine().also { line = it } != null) {
+            output.append(line).append("\n")
+        }
+        // 读取错误输出流
+        while (errorReader.readLine().also { line = it } != null) {
+            output.append(line).append("\n")
+        }
+        
+        reader.close()
+        errorReader.close()
+        output.toString().trim().ifEmpty { "执行成功，无返回信息。" }
+    } catch (e: Exception) {
+        "异常: ${e.message}"
+    }
+}</code></pre>
+            </section>
+
+            <hr class="my-12 border-gray-200">
+
+            <!-- Web 混合沙盒 -->
+            <section id="webview" class="scroll-mt-24">
+                <h2>Web 混合沙盒 (WebView Bridge)</h2>
+                <p>Nverse Studio 开放了 JavascriptInterface，前端开发者可以在网页中直接调用 Android 底层功能。</p>
+
+                <h3>前端调用示例 (JavaScript)</h3>
+                <pre><code class="language-javascript">// 假设 Java 层注册了名为 'NverseBridge' 的对象
+if (window.NverseBridge) {
+    // 调用底层的 Shell 执行
+    window.NverseBridge.execShell("getprop ro.product.model", function(result) {
+        document.getElementById("terminal").innerHTML = `> 设备型号: ${result}`;
+    });
+}</code></pre>
+            </section>
+
+            <hr class="my-12 border-gray-200">
+
+            <!-- 开发者 API -->
+            <section id="api" class="scroll-mt-24">
+                <h2>开发者指南：Java/Kotlin API</h2>
+                <p>Nverse Studio 提供了核心的 AIDL 服务定义，方便开发者在其应用中集成底层的控制能力。</p>
+
+                <h3>NverseServer 类定义</h3>
+                <pre><code class="language-java">public class NverseServer extends INverseService.Stub {
+    
+    /**
+     * 执行底层 Shell 命令
+     * @param command 要执行的命令，例如 "pm list packages"
+     * @return 命令执行后的完整输出日志
+     */
+    @Override
+    public String execCommand(String command) throws RemoteException {
+        return ShellUtils.execute(command);
+    }
+
+    /**
+     * 获取当前服务进程的 UID (通常为 2000，即 ADB 权限)
+     */
+    @Override
+    public int getServerUid() throws RemoteException {
+        return android.os.Process.myUid();
+    }
+}</code></pre>
+            </section>
+
+            <hr class="my-12 border-gray-200">
+
+            <!-- 高频命令字典 -->
+            <section id="commands" class="scroll-mt-24">
+                <h2>高频命令字典</h2>
+                <p>以下是 Nverse Studio 内置封装的部分系统级命令，涵盖了极客玩家最常用的调教场景。</p>
+
+                <h3>应用管理 (pm)</h3>
+                <ul>
+                    <li><code class="bg-gray-100 px-1 py-0.5 rounded text-sm mono">pm list packages -3</code> : 列出所有已安装的第三方应用包名。</li>
+                    <li><code class="bg-gray-100 px-1 py-0.5 rounded text-sm mono">pm uninstall -k --user 0 &lt;package&gt;</code> : 静默卸载应用（保留数据目录）。</li>
+                    <li><code class="bg-gray-100 px-1 py-0.5 rounded text-sm mono">pm disable-user --user 0 &lt;package&gt;</code> : 冻结/停用指定应用。</li>
+                    <li><code class="bg-gray-100 px-1 py-0.5 rounded text-sm mono">pm grant &lt;package&gt; &lt;permission&gt;</code> : 动态授予应用高危权限。</li>
+                </ul>
+
+                <h3>系统设置 (settings)</h3>
+                <ul>
+                    <li><code class="bg-gray-100 px-1 py-0.5 rounded text-sm mono">settings put global window_animation_scale 0.5</code> : 调整系统窗口动画速度。</li>
+                    <li><code class="bg-gray-100 px-1 py-0.5 rounded text-sm mono">settings get secure android_id</code> : 获取设备 Android ID。</li>
+                </ul>
+            </section>
+
+            <hr class="my-12 border-gray-200">
+
+            <!-- 常见问题 -->
+            <section id="faq" class="scroll-mt-24">
+                <h2>常见问题 (FAQ)</h2>
+
+                <h3>1. 安装时提示“应用未上架”或“风险软件”？</h3>
+                <p>
+                    因为 Nverse Studio 涉及底层的权限分发，且未上架官方应用商店，手机自带的安全中心（如华为纯净模式、腾讯手机管家）会自动将其判定为高危应用。<strong>请在设置中临时关闭纯净模式/安全拦截，强制完成安装。</strong>
+                </p>
+
+                <h3>2. 为什么显示 Shizuku 已授权，但命令执行失败？</h3>
+                <p>
+                    请检查你的 Shizuku 是否因为息屏、重启等原因掉线。部分手机厂商（如 MIUI、ColorOS）会强制杀后台，请将 Shizuku 和 Nverse Studio 都加入电池白名单/后台无限制运行。
+                </p>
+
+                <h3>3. 应用支持 iOS 吗？</h3>
+                <p>
+                    完全不支持。iOS 的沙盒机制异常封闭，严禁任何应用调用底层 Shell 或修改系统参数。本项目为 Android 专属。
+                </p>
+            </section>
+
+            <hr class="my-12 border-gray-200">
+
+            <!-- 更新日志 -->
+            <section id="changelog" class="scroll-mt-24">
+                <h2>更新日志</h2>
+                <div class="border-l-2 border-gray-200 pl-6 ml-4 space-y-8 mt-6">
+                    
+                    <div class="relative">
+                        <div class="absolute -left-[31px] top-1.5 w-3 h-3 bg-black rounded-full border-2 border-white ring-2 ring-gray-100"></div>
+                        <h3 class="text-base font-bold text-gray-900 m-0">v1.0.0-beta</h3>
+                        <p class="text-xs text-gray-400 mt-1 font-mono">2026-11-06</p>
+                        <ul class="text-sm mt-3 text-gray-600 space-y-1">
+                            <li>首个内测版本发布。</li>
+                            <li>完善了基于 Shizuku 的 ADB 权限分发逻辑。</li>
+                            <li>集成了 WebView 混合开发环境。</li>
+                            <li>优化了终端 UI 渲染性能。</li>
+                        </ul>
+                    </div>
+
+                    <div class="relative">
+                        <div class="absolute -left-[31px] top-1.5 w-3 h-3 bg-gray-300 rounded-full border-2 border-white"></div>
+                        <h3 class="text-base font-bold text-gray-500 m-0">v0.5.0-alpha</h3>
+                        <p class="text-xs text-gray-400 mt-1 font-mono">2026-10-15</p>
+                        <ul class="text-sm mt-3 text-gray-500 space-y-1">
+                            <li>内部测试版本。</li>
+                            <li>初步完成底层执行引擎的搭建。</li>
+                        </ul>
+                    </div>
+                    
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- 底部版权区 -->
+    <footer class="border-t border-gray-200 py-10 bg-white mt-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+            <p>© 2026 Nverse Studio by 南辞 (幻灵工作室). All rights reserved.</p>
+            <p class="mono text-xs">Powered by Cloudflare Pages</p>
+        </div>
+    </footer>
+
+    <!-- 平滑滚动脚本 -->
+    <script>
+        // 监听所有锚点点击，实现极其丝滑的滚动效果
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    // 减去顶部导航栏的高度
+                    const headerOffset = 80;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
